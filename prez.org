@@ -1,0 +1,44 @@
+* Welcome to our AWS Lambda showcase
+* Agenda
+ - Why serverless?
+ - Create a simple function
+ - Upload it manually
+ - Provide API gateway
+ - Setup a Travis CI pipeline
+ - Make Travis upload the function
+ - Lessons learned
+* Create function code
+** We use IntelliJ, Kotlin and Gradle
+** Create your function
+ - package novatec
+ - class Hello
+ - function handleRequest(): String
+   For now, we will just return "Hello World!"
+* Create Lambda function
+ - We'll use the [[https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=2ahUKEwjgvJPZ6PPcAhUI2aQKHbnmB0EQFjAAegQICRAB&url=https%3A%2F%2Fconsole.aws.amazon.com%2Flambda%2Fhome&usg=AOvVaw2yrycDp_6fjYDa-4E9Hytx][Lambda Management Console]]
+ - you can also use the [[https://docs.aws.amazon.com/cli/latest/reference/lambda/create-function.html][AWS CLI]]
+* Upload the function manually
+** Package the project in a fat jar/uberjar
+ - A fat jar is necessary if you use external libraries,
+   like the Kotlin runtime.
+ - We use the Shadow plugin to run the shadowJar task.
+** Upload the jar to AWS
+** Set the code handler path
+   In our case: ~novatec.Hello::handleRequest~
+** Test it!
+* Set up API Gateway
+** Create a new gateway
+** Configure it for a plaintext response
+ - There are some hard to remember steps...
+ - In "Integration Request": Uncheck "Use Lambda Proxy integration"
+ - In "Method Response":
+   - Add Header "Content-Type"
+   - Add Response Model with Content type "text/plain" and Model "empty"
+ - In "Integration Response":
+   - Add Mapping Value "'text/plain'" to the Response Header "Content-Type"
+     Note the single quotes!
+   - Change the Content-Type Mapping Template to "text/plain"
+ - Don't worry, this was the annoying part.
+** Deploy the API
+** Call the API
+* Set up Travis CI
