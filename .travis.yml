@@ -1,4 +1,6 @@
 language: java
+install:
+  - gradle shadowJar
 deploy:
   provider: lambda
   function_name: awsLambdaShowcase
@@ -6,6 +8,7 @@ deploy:
   role: arn:aws:iam::292384238617:role/lambda_basic_execution_for_travis
   runtime: java8
   handler_name: novatec.Hello::handleRequest
+  file: ./build/libs/awslambdashowcase-1.0-SNAPSHOT.jar
   secret_access_key:
     secure: Fmezmw40x13D7NIJKGLAHVSn/7pXhEvYRbkFYNVu4bmm2gbxYJ8gs3ZZkp3sCMN/emhd2CJp/BKayqsRB8rADLuHDmVAC54c6XlYNBuReVspQlLZTCMKGsQzjyfyxd29mgncDRXmJjTlJUB5JYUik/06UTsKR8lFUEs0VjCwkhe08+dfqwJnuTF895rUmOOV7CqLt/Et8I/A7FLqlqdW4Gc/khYHjTrKAvvZS2uQgcVQJeXLiNoM3zt4XqgMwizZTDylWjdMLAKH1ACm3tAIpjXL2i7MAETJxlCjO2LVqZB9tMvAhSGbHv7IsxRy1Tz4NhZEeNnZrGIPC2lmTbw23FKyV2Kc1zXlSUXMNVRfGVt3tThJHnVh6U/G4So6Xx2178JzLgTL8VkwbDRBuOBV1yGKBt4DP4E4CKLEZvWQar9ZH1H7kC3VKlPmfkxQILhfR9p+TN+b8z36PLIsSQFeeMLuzg2hPmSvxPuf7TkoXyALWADPb/mOT9KWVdFfHmkDdk+bhk6WeKAJps2pk+lmFXDEWqF81mk95ee8fy50xZUJ9X54teHScmBYn03CAXzRXvwAocN1gGzrNWfohcKJquvVkEkwcxeyTYMHtlL5E/p/9FNQ9VsBv2MqNXb65lnySDN4ML4GNZC+f6DCUgFQzv9awwpCKeFJ7JGB8Tco0+0=
   access_key_id:
