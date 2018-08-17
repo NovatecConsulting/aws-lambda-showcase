@@ -42,3 +42,9 @@
 ** Deploy the API
 ** Call the API
 * Set up Travis CI
+ - function_name, region and handler_name are found on the
+   Lambda management console page
+ - role is found on the IAM console
+ - runtime is "java8"
+   - documented nowhere!
+ - 
