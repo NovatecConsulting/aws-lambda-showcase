@@ -48,4 +48,9 @@
 * Set up Travis CI
 ** Use aws lambda CLI tool to update the function code
 ** Create a shell script to update the function code
+#+BEGIN_SRC shell
+   before_install:
+    - pip install --user awscli
+    - export PATH=$PATH:$HOME/.local/bin
+#+END_SRC
 ** Set the AWS credentials for travis
