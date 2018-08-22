@@ -1,5 +1,11 @@
 package novatec
 
 class Hello {
-    fun handleRequest() = "Hello World"
+    fun handleRequest(name: String) = if (name.isBlank()) {
+        "Hello World"
+    } else {
+        "Hello $name"
+    }
+
+
 }
