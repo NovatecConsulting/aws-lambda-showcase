@@ -54,3 +54,14 @@
     - export PATH=$PATH:$HOME/.local/bin
 #+END_SRC
 ** Set the AWS credentials for travis
+* Add an argument to the lambda function
+ - Create a new resource that takes a path param
+ - Note: Integration Request Mapping Template always receives JSON!
+   To pass the parameter ~name~ to our function, we need the template:
+   ~"$input.params('name')"~
+
+* TODO
+ * Terminal light theme
+ * org-mode -> reveal.js
+ * 2nd project to switch at the AWS credentials step
+   * That
