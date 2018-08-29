@@ -3,9 +3,9 @@ package novatec
 class Hello {
 
     fun handleRequest(name: String?) = if (name?.isBlank() != false) {
-        "Hello World"
+        "Goodbye everyone!"
     } else {
-        "Hello $name"
+        "Goodbye $name!"
     }
 
 
