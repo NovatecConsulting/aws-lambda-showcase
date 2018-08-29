@@ -69,6 +69,5 @@
 
 * TODO
  * Terminal light theme
- * org-mode -> reveal.js
+ * reveal.js theme
  * 2nd project to switch at the AWS credentials step
-   * That
