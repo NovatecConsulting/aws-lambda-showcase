@@ -1,11 +1,15 @@
 language: java
+
 before_install:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
+
 install:
 - gradle shadowJar
+
 script:
 - "./upload-lambda.sh"
+
 env:
   global:
   - secure: wax6Hbk22z7aDviySpPIKMvva8tqtVMsf3pKjoPtEiQdafnFRM5Mnfv/u2SNWeZwyMJS0ZutJcWwV/dJ3qL6SOLEmStccroPCgl+rffx6sHqKDDKwB4JtG9lWLD/TM0vy2Z3bmVZJn2k3PdBJSlsy6pat5ndjNn1oE3+MjqaFRfFRiOUYs/ad34wuK9ZT7d1njMy14yeGZ0Qh4PB4s4u3+EzjxvTYYMqQ0/ZdoV4hBeuwcqd5I7RvVGCkUs71d/+gg+YKVOTa3MCe5mN6F/nHNz7ShgovIvCuyHSVd+lSQvC4gvgaShX3TyudLOCA06GDZTZYT5MXRdi8u2Jgv4SuzLgwUAL4i78N/YjqtukYFgrq6GO7+VA1srZMGLqpidLhvc/apo+LpZiHdBvqVR3rV0889tpu71ymmBaNZZyPCGjLjp9syPkx81hVjqFzeCKE7goIJLOsysvNPjCFEg+Y8lquIFCWFI7woeJ8UNUTxznzDO4gFQWCX3g0HFSWU3Vqe0UwGhCQpwiaXy3+LswUfzvUmhgoEksv+qos6X5HsUn13HYW2GowFOGYa/leEAbu4tK5+dcx1hiTKfiphKbj7XVNYrsL9P5ZhVQUjP6gxMnktALxUJ08pNLNydTmFpn8pTmdTciHlJPfy6mRIxsNA0FWaqdVqglAUk9c9NOwGU=

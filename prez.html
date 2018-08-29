@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title>prez</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/reveal.css">
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="http://lab.hakim.se/reveal-js/css/theme/black.css" id="theme">
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? 'http://lab.hakim.se/reveal-js/css/print/pdf.css' : 'http://lab.hakim.se/reveal-js/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script>
+  <!--[if lt IE 9]>
+  <script src="http://lab.hakim.se/reveal-js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="welcome-to-our-aws-lambda-showcase" class="slide level1">
+<h1>Welcome to our AWS Lambda showcase</h1>
+</section>
+<section id="agenda" class="slide level1">
+<h1>Agenda</h1>
+<ul>
+<li>Why serverless?</li>
+<li>Create a simple function</li>
+<li>Upload it manually</li>
+<li>Provide API gateway</li>
+<li>Setup a Travis CI pipeline</li>
+<li>Make Travis upload the function</li>
+<li>Add a path parameter to the function</li>
+<li>Lessons learned</li>
+</ul>
+</section>
+<section id="why-serverless" class="slide level1">
+<h1>Why serverless?</h1>
+<ul>
+<li>Speed</li>
+<li>Don’t have to do ops yourself</li>
+<li>Cheaper (if you do it right)</li>
+</ul>
+</section>
+<section id="create-function-code" class="slide level1">
+<h1>Create function code</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="create-your-function">Create your function</h2>
+<ul>
+<li>package novatec</li>
+<li>class Hello</li>
+<li>function handleRequest(): String</li>
+</ul>
+<p>For now, we will just return “Hello World!”</p>
+</section>
+<section class="slide level1">
+
+<h2 id="create-lambda-function">Create Lambda function</h2>
+<ul>
+<li>We’ll use the <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjgvJPZ6PPcAhUI2aQKHbnmB0EQFjAAegQICRAB&amp;url=https%3A%2F%2Fconsole.aws.amazon.com%2Flambda%2Fhome&amp;usg=AOvVaw2yrycDp_6fjYDa-4E9Hytx">Lambda Management Console</a></li>
+<li>you can also use the <a href="https://docs.aws.amazon.com/cli/latest/reference/lambda/create-function.html">AWS CLI</a></li>
+</ul>
+</section>
+<section id="upload-the-function-manually" class="slide level1">
+<h1>Upload the function manually</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="package-the-project-in-a-fat-jaruberjar">Package the project in a fat jar/uberjar</h2>
+<ul>
+<li>A fat jar is necessary if you use external libraries, like the Kotlin runtime.</li>
+<li>We use the Shadow plugin to run the shadowJar task.</li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h2 id="upload-the-jar-to-aws">Upload the jar to AWS</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="set-the-code-handler-path">Set the code handler path</h2>
+<p>In our case: <code>novatec.Hello::handleRequest</code></p>
+</section>
+<section class="slide level1">
+
+<h2 id="test-it">Test it!</h2>
+</section>
+<section id="make-it-accessible-to-the-rest-of-the-world" class="slide level1">
+<h1>Make it accessible to the rest of the world</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="create-an-api-gateway">Create an API gateway</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="configure-it-for-a-plaintext-response">Configure it for a plaintext response</h2>
+</section>
+<section class="slide level1">
+
+<h3 id="just-follow-these-easy-steps">Just follow these easy steps</h3>
+<ul>
+<li>In “Integration Request”: Uncheck “Use Lambda Proxy integration”</li>
+<li>In “Method Response”:
+<ul>
+<li>Add Header “Content-Type”</li>
+<li>Add Response Model with Content type “text/plain” and Model “empty”</li>
+</ul></li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h3 id="and-these">… and these</h3>
+<ul>
+<li>In “Integration Response”:
+<ul>
+<li><p>Add Mapping Value &quot; ‘text/plain’ &quot; to the Response Header “Content-Type”</p>
+Note the single quotes!</li>
+<li>Change the Content-Type Mapping Template to “text/plain”</li>
+</ul></li>
+<li>Don’t worry, this was the annoying part.</li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h2 id="test-the-api">Test the API</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="deploy-the-api">Deploy the API</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="call-the-api">Call the API</h2>
+</section>
+<section id="set-up-travis-ci" class="slide level1">
+<h1>Set up Travis CI</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="use-aws-lambda-cli-tool-to-update-the-function-code">Use aws lambda CLI tool to update the function code</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="create-a-shell-script-to-update-the-function-code">Create a shell script to update the function code</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="run-this-shell-script-from-our-travis-script">Run this shell script from our travis script</h2>
+<p>To make aws cli available:</p>
+<pre><code>before_install:
+ - pip install --user awscli
+ - export PATH=$PATH:$HOME/.local/bin</code></pre>
+</section>
+<section class="slide level1">
+
+<h2 id="set-the-aws-credentials-for-travis">Set the AWS credentials for travis</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="make-travis-do-the-work-for-us">Make travis do the work for us</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="the-hello-world-function-is-working">The Hello World function is working!</h2>
+<p>What’s next?</p>
+</section>
+<section id="add-an-argument-to-the-lambda-function" class="slide level1">
+<h1>Add an argument to the lambda function</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="modify-the-function-code">Modify the function code</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="configure-the-api-gateway">Configure the API gateway</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="another-few-easy-steps">Another few easy steps…</h2>
+<ul>
+<li>Create a new resource that takes a path param</li>
+<li>Note: Integration Request Mapping Template always receives JSON! To pass the parameter <code>name</code> to our function, we need the template: <code>&quot;$input.params('name')&quot;</code></li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h2 id="test-the-api-1">Test the API</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="deploy-the-api-1">Deploy the API</h2>
+</section>
+<section class="slide level1">
+
+<h2 id="call-the-api-1">Call the API</h2>
+</section>
+<section id="lessons-learned" class="slide level1">
+<h1>Lessons learned</h1>
+</section>
+<section class="slide level1">
+
+<h2 id="its-fast">It’s fast</h2>
+<p>The development speed, at least.</p>
+<p>When called at least every few minutes, it’s also performant.</p>
+</section>
+<section class="slide level1">
+
+<h2 id="its-hard-to-get-started-with-the-config">It’s hard to get started with the config</h2>
+<p>And there’s a lot of config!</p>
+</section>
+<section class="slide level1">
+
+<h2 id="there-are-fewer-use-cases-than-you-might-think">There are fewer use cases than you might think</h2>
+</section>
+<section id="thanks" class="slide level1">
+<h1>Thanks!</h1>
+</section>
+<section id="todo" class="slide level1">
+<h1>TODO</h1>
+<ul>
+<li>Terminal light theme</li>
+<li>org-mode -&gt; reveal.js</li>
+<li>2nd project to switch at the AWS credentials step
+<ul>
+<li>That</li>
+</ul></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="http://lab.hakim.se/reveal-js/lib/js/head.min.js"></script>
+  <script src="http://lab.hakim.se/reveal-js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'http://lab.hakim.se/reveal-js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'http://lab.hakim.se/reveal-js/plugin/zoom-js/zoom.js', async: true },
+          { src: 'http://lab.hakim.se/reveal-js/plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+    </body>
+</html>

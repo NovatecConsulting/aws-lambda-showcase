@@ -6,11 +6,12 @@
  - Provide API gateway
  - Setup a Travis CI pipeline
  - Make Travis upload the function
+ - Add a path parameter to the function
  - Lessons learned
 * Why serverless?
-** Speed
-** Don't have to do ops yourself
-** Cheaper (if you do it right)
+ - Speed
+ - Don't have to do ops yourself
+ - Cheaper (if you do it right)
 * Create function code
 ** We use IntelliJ, Kotlin and Gradle
 ** Create your function
@@ -59,6 +60,12 @@
  - Note: Integration Request Mapping Template always receives JSON!
    To pass the parameter ~name~ to our function, we need the template:
    ~"$input.params('name')"~
+* Lessons learned
+** It's fast
+** It's hard to get started with the config
+   And there's a lot of config!
+** There are fewer use cases than you might think
+
 
 * TODO
  * Terminal light theme

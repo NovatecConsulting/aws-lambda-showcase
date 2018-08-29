@@ -3,7 +3,7 @@ package novatec
 class Hello {
 
     fun handleRequest(name: String?) = if (name?.isBlank() != false) {
-        "Goodbye everyone!"
+        "How's it going!"
     } else {
         "Goodbye $name!"
     }
