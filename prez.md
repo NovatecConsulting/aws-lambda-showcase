@@ -117,6 +117,13 @@ In our case: `novatec.Hello::handleRequest`
 
 # Set up Travis CI
 
+---
+
+## Our CI job will
+
+ * Build the project
+ * Create a shadowJar
+ * Upload it to AWS
 
 ---
 
